@@ -1,6 +1,6 @@
 import random
 
-from custom_types import *
+from py.custom_types import *
 
 
 def is_cover(

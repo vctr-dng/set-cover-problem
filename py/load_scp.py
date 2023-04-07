@@ -1,21 +1,9 @@
 """ @author Louri Noël , basé sur le travail de Arnaud Delhay-Lorrain """
 
 import sys
-from timeit import Timer
-from typing import Tuple, Any, List
-from utils import Universe, Subset, Cost
-
-
-# https://stackoverflow.com/questions/20974147/timeit-eats-return-value
-def time_that_once(func, *args, **kwargs) -> Tuple[float, Any]:
-    output = [None]
-
-    def wrapper():
-        output[0] = func(*args, **kwargs)
-
-    timer = Timer(wrapper)
-    delta = timer.timeit(1)
-    return delta, output[0]
+from tqdm import tqdm
+from typing import Tuple, List
+from py.custom_types import Universe, Subset, Cost
 
 
 class ScpParsingException(Exception):
@@ -62,8 +50,8 @@ def load_scp(filename: str) -> Tuple[Universe, List[Subset], List[Cost]]:
 
         # Reading the contents : which subsets cover each element
 
-        for element_cpt in range(
-            1, elnt_nr + 1
+        for element_cpt in tqdm(
+            range(1, elnt_nr + 1)
         ):  # les éléments de l'univers commencent à 1
             # Read subsets_nr
             tab = myfile.readline().strip().split(" ")
@@ -93,13 +81,13 @@ def load_scp(filename: str) -> Tuple[Universe, List[Subset], List[Cost]]:
 
 
 def main(filename: str, timeit=False) -> None:
-    if timeit:
-        delta, (universe, subsets, subset_cost_vect) = time_that_once(
-            load_scp, filename
-        )
-        print("parsing time:", delta, "seconds")
-    else:
-        universe, subsets, subset_cost_vect = load_scp(filename)
+    # if timeit:
+    #     delta, (universe, subsets, subset_cost_vect) = time_that_once(
+    #         load_scp, filename
+    #     )
+    #     print("parsing time:", delta, "seconds")
+    # else:
+    universe, subsets, subset_cost_vect = load_scp(filename)
 
     print("Universe:", universe)
     print("Coûts (si pris en compte) :", subset_cost_vect)

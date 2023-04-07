@@ -1,27 +1,12 @@
-# from load_scp_v2 import load_scp
-from custom_types import *
-from load_scp import load_scp
-from utils import is_cover
+from py.custom_types import *
+from py.load_scp import load_scp
+from tqdm import tqdm
+from py.utils import is_cover
 
 
-def greedy_set_cover(universe: Universe, subsets: Subsets) -> Subsets:
-    """Find a family of subsets that covers the universal set"""
-    elements = set(e for s in subsets for e in s)
-    # Check the subsets cover the universe
-    if elements != universe:
-        return None
-    covered = set()
-    cover = []
-    # Greedily add the subsets with the most uncovered points
-    while covered != elements:
-        subset = max(subsets, key=lambda s: len(s - covered))
-        cover.append(subset)
-        covered |= subset
-
-    return cover
-
-
-def naive_set_cover(universe: Universe, subsets: Subsets) -> Subsets:
+def naive_set_cover(
+    universe: Universe, subsets: Subsets, verbose: bool = False
+) -> Subsets:
     """Find a collection of families of subsets that covers the universal set"""
     solution_collection = []
     best_solution_cost = len(subsets)  # worst cost ever
@@ -34,7 +19,8 @@ def naive_set_cover(universe: Universe, subsets: Subsets) -> Subsets:
         bit_string = bin(i)[2:].zfill(len(subsets))
         for c in bit_string:
             solution.append((int(c)))
-        print("essai:", solution)
+        if verbose:
+            print("essai:", solution)
 
         # If a cover is found
         if is_cover(universe, subsets, solution) == True:
@@ -78,10 +64,6 @@ def main() -> None:
 
     best_covers = naive_set_cover(universe, subsets)
     print("Collection of best covers: ", best_covers)
-
-    cover = greedy_set_cover(universe, subsets)
-    print("Greedy cover: ", cover)
-    print("Size of Greedy cover: ", len(cover))
 
 
 if __name__ == "__main__":

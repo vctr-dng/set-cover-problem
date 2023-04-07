@@ -4,8 +4,11 @@ Simple genetic algorithm guessing a string.
 
 # ----- Dependencies
 
+
 from random import random
 from string import ascii_letters
+
+import pygal
 
 # One-linner for randomly choose a element in an array
 # This one-linner is fastest than random.choice(x).
@@ -176,8 +179,6 @@ def main():
             log_avg.append(average_grade)
         i += 1
 
-    import pygal
-
     line_chart = pygal.Line(show_dots=False, show_legend=False)
     line_chart.title = "Fitness evolution"
     line_chart.x_title = "Generations"
@@ -200,4 +201,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    pass

@@ -1,8 +1,8 @@
-from custom_types import *
-from load_scp import load_scp
+from py.custom_types import *
+from py.load_scp import load_scp
 
 
-def set_cover(universe: Universe, subsets: Subsets) -> Subsets:
+def greedy_set_cover(universe: Universe, subsets: Subsets) -> Subsets:
     """Find a family of subsets that covers the universal set"""
     elements = set(e for s in subsets for e in s)
     # Check the subsets cover the universe
@@ -33,7 +33,7 @@ def main() -> None:
     print("Universe: ", universe)
     print("**************** SOLVING ****************")
 
-    cover = set_cover(universe, subsets)
+    cover = greedy_set_cover(universe, subsets)
     print("Cover: ", cover)
     print("Cover cost: ", len(cover))
 
